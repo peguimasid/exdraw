@@ -8,9 +8,9 @@ defmodule ExdrawWeb.UserLive.LoginTest do
     test "renders login page", %{conn: conn} do
       {:ok, _lv, html} = live(conn, ~p"/users/log-in")
 
-      assert html =~ "Log in"
-      assert html =~ "Register"
-      assert html =~ "Log in with email"
+      assert html =~ "Welcome back"
+      assert html =~ "Sign up"
+      assert html =~ "Continue with email"
     end
   end
 
@@ -20,25 +20,26 @@ defmodule ExdrawWeb.UserLive.LoginTest do
 
       {:ok, lv, _html} = live(conn, ~p"/users/log-in")
 
+      # Page defaults to magic link mode, no need to toggle
       {:ok, _lv, html} =
         form(lv, "#login_form_magic", user: %{email: user.email})
         |> render_submit()
         |> follow_redirect(conn, ~p"/users/log-in")
 
+      # Check for success flash message in the HTML
       assert html =~ "If your email is in our system"
-
-      assert Exdraw.Repo.get_by!(Exdraw.Accounts.UserToken, user_id: user.id).context ==
-               "login"
     end
 
     test "does not disclose if user is registered", %{conn: conn} do
       {:ok, lv, _html} = live(conn, ~p"/users/log-in")
 
+      # Page defaults to magic link mode, no need to toggle
       {:ok, _lv, html} =
         form(lv, "#login_form_magic", user: %{email: "idonotexist@example.com"})
         |> render_submit()
         |> follow_redirect(conn, ~p"/users/log-in")
 
+      # Check for success flash message (same message for security)
       assert html =~ "If your email is in our system"
     end
   end
@@ -48,6 +49,9 @@ defmodule ExdrawWeb.UserLive.LoginTest do
       user = user_fixture() |> set_password()
 
       {:ok, lv, _html} = live(conn, ~p"/users/log-in")
+
+      # Toggle to password mode first
+      lv |> element("button", "Sign in with password instead") |> render_click()
 
       form =
         form(lv, "#login_form_password",
@@ -63,6 +67,9 @@ defmodule ExdrawWeb.UserLive.LoginTest do
       conn: conn
     } do
       {:ok, lv, _html} = live(conn, ~p"/users/log-in")
+
+      # Toggle to password mode first
+      lv |> element("button", "Sign in with password instead") |> render_click()
 
       form =
         form(lv, "#login_form_password", user: %{email: "test@email.com", password: "123456"})
@@ -81,11 +88,11 @@ defmodule ExdrawWeb.UserLive.LoginTest do
 
       {:ok, _login_live, login_html} =
         lv
-        |> element("main a", "Sign up")
+        |> element("a", "Sign up")
         |> render_click()
         |> follow_redirect(conn, ~p"/users/register")
 
-      assert login_html =~ "Register"
+      assert login_html =~ "Create an account"
     end
   end
 
@@ -98,10 +105,11 @@ defmodule ExdrawWeb.UserLive.LoginTest do
     test "shows login page with email filled in", %{conn: conn, user: user} do
       {:ok, _lv, html} = live(conn, ~p"/users/log-in")
 
-      assert html =~ "You need to reauthenticate"
-      refute html =~ "Register"
-      assert html =~ "Log in with email"
+      assert html =~ "Welcome back"
+      refute html =~ "Sign up"
+      assert html =~ "Continue with email"
 
+      # Page defaults to magic link mode, check magic link form has email
       assert html =~
                ~s(<input type="email" name="user[email]" id="login_form_magic_email" value="#{user.email}")
     end

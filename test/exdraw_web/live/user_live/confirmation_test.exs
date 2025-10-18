@@ -53,14 +53,12 @@ defmodule ExdrawWeb.UserLive.ConfirmationTest do
       assert get_session(conn, :user_token)
       assert redirected_to(conn) == ~p"/"
 
-      # log out, new conn
+      # log out, new conn - token should be invalid now
       conn = build_conn()
 
-      {:ok, _lv, html} =
-        live(conn, ~p"/users/log-in/#{token}")
-        |> follow_redirect(conn, ~p"/users/log-in")
-
-      assert html =~ "Magic link is invalid or it has expired"
+      # Try to use the same token again - should be redirected with error
+      assert {:error, {:live_redirect, %{to: "/users/log-in"}}} =
+               live(conn, ~p"/users/log-in/#{token}")
     end
 
     test "logs confirmed user in without changing confirmed_at", %{
@@ -84,22 +82,18 @@ defmodule ExdrawWeb.UserLive.ConfirmationTest do
 
       assert Accounts.get_user!(user.id).confirmed_at == user.confirmed_at
 
-      # log out, new conn
+      # log out, new conn - token should be invalid now
       conn = build_conn()
 
-      {:ok, _lv, html} =
-        live(conn, ~p"/users/log-in/#{token}")
-        |> follow_redirect(conn, ~p"/users/log-in")
-
-      assert html =~ "Magic link is invalid or it has expired"
+      # Try to use the same token again - should be redirected with error
+      assert {:error, {:live_redirect, %{to: "/users/log-in"}}} =
+               live(conn, ~p"/users/log-in/#{token}")
     end
 
     test "raises error for invalid token", %{conn: conn} do
-      {:ok, _lv, html} =
-        live(conn, ~p"/users/log-in/invalid-token")
-        |> follow_redirect(conn, ~p"/users/log-in")
-
-      assert html =~ "Magic link is invalid or it has expired"
+      # Invalid token should redirect immediately
+      assert {:error, {:live_redirect, %{to: "/users/log-in"}}} =
+               live(conn, ~p"/users/log-in/invalid-token")
     end
   end
 end

@@ -33,7 +33,9 @@ defmodule ExdrawWeb.UserLive.SettingsTest do
         |> live(~p"/users/settings")
         |> follow_redirect(conn, ~p"/users/log-in")
 
-      assert conn.resp_body =~ "You must re-authenticate to access this page."
+      # Check flash message instead of HTML body
+      assert Phoenix.Flash.get(conn.assigns.flash, :error) ==
+               "You must re-authenticate to access this page."
     end
   end
 
