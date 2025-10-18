@@ -11,7 +11,7 @@ defmodule ExdrawWeb.UserLive.Login do
           <%!-- Logo --%>
           <div class="flex items-center justify-center gap-3 mb-8">
             <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-              <.icon name="hero-pencil-square" class="size-5 text-white" />
+              <.icon name="hero-pencil-square" class="size-5 text-primary-content" />
             </div>
             <h1 class="text-2xl font-semibold text-base-content">ExDraw</h1>
           </div>
