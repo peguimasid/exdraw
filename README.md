@@ -66,9 +66,9 @@ For production deployment guidelines, visit the [Phoenix deployment documentatio
 **Goal:** Secure, beautiful login experience with multiple auth options
 
 #### 1. Project Setup
-- [ ] Create new Phoenix 1.8 app with PostgreSQL
-- [ ] Set up Tailwind CSS for styling
-- [ ] Create landing page with "Get Started" button
+- [x] Create new Phoenix 1.8 app with PostgreSQL
+- [x] Set up Tailwind CSS for styling
+- [x] Create landing page with "Get Started" button
 
 **How it should work:**
 - User visits `exdraw.com` and sees a clean landing page with app demo/preview
