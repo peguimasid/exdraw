@@ -68,7 +68,7 @@ For production deployment guidelines, visit the [Phoenix deployment documentatio
 #### 1. Project Setup
 - [x] Create new Phoenix 1.8 app with PostgreSQL
 - [x] Set up Tailwind CSS for styling
-- [x] Create landing page with "Get Started" button
+- [ ] Create landing page with "Get Started" button
 
 **How it should work:**
 - User visits `exdraw.com` and sees a clean landing page with app demo/preview
