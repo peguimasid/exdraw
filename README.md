@@ -1,6 +1,6 @@
-# Expencfy
+# ExDraw
 
-Expencfy is a Phoenix-based application to manage your expenses and budgets efficiently.
+ExDraw is a real-time collaborative whiteboard built with Phoenix LiveView. Draw together with multiple users, share ideas visually, and collaborate seamlessly in real-time.
 
 ## Getting Started
 
