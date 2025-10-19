@@ -68,7 +68,8 @@ defmodule Exdraw.MixProject do
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
       {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:ueberauth_github, "~> 0.8"}
     ]
   end
 

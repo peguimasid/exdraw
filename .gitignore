@@ -35,3 +35,8 @@ exdraw-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# Env files
+.env
+.env.local
+.env.*.local
+

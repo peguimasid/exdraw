@@ -7,6 +7,10 @@ import Config
 # any compile-time configuration in here, as it won't be applied.
 # The block below contains prod specific runtime configuration.
 
+# config :ueberauth, Ueberauth.Strategy.Github.OAuth,
+#   client_id: System.get_env("GITHUB_CLIENT_ID"),
+#   client_secret: System.get_env("GITHUB_CLIENT_SECRET")
+
 # ## Using releases
 #
 # If you use `mix release`, you need to explicitly enable the server
