@@ -68,7 +68,7 @@ For production deployment guidelines, visit the [Phoenix deployment documentatio
 #### 1. Project Setup
 - [x] Create new Phoenix 1.8 app with PostgreSQL
 - [x] Set up Tailwind CSS for styling
-- [ ] Create landing page with "Get Started" button
+- [x] Create landing page with "Get Started" button
 
 **How it should work:**
 - User visits `exdraw.com` and sees a clean landing page with app demo/preview
@@ -76,10 +76,10 @@ For production deployment guidelines, visit the [Phoenix deployment documentatio
 - Modern, minimal design (think Linear, Vercel style)
 
 #### 2. Email/Password Authentication
-- [ ] Run `mix phx.gen.auth`
-- [ ] Customize auth pages with beautiful UI
-- [ ] Add email confirmation
-- [ ] Password reset flow
+- [x] Run `mix phx.gen.auth`
+- [x] Customize auth pages with beautiful UI
+- [x] Add email confirmation
+- [x] Password reset flow
 
 **How it should work:**
 - User clicks "Start Drawing" → redirected to login/register
