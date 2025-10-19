@@ -20,7 +20,7 @@ defmodule ExdrawWeb.UserSessionController do
 
         conn
         |> put_flash(:success, info)
-        |> put_session(:user_return_to, ~p"/home")
+        |> ensure_user_return_to(~p"/home")
         |> UserAuth.log_in_user(user, user_params)
 
       _ ->
@@ -37,7 +37,7 @@ defmodule ExdrawWeb.UserSessionController do
     if user = Accounts.get_user_by_email_and_password(email, password) do
       conn
       |> put_flash(:success, info)
-      |> put_session(:user_return_to, ~p"/home")
+      |> ensure_user_return_to(~p"/home")
       |> UserAuth.log_in_user(user, user_params)
     else
       # In order to prevent user enumeration attacks, don't disclose whether the email is registered.
@@ -65,5 +65,12 @@ defmodule ExdrawWeb.UserSessionController do
     conn
     |> put_flash(:success, "Logged out successfully.")
     |> UserAuth.log_out_user()
+  end
+
+  defp ensure_user_return_to(conn, default_path) do
+    case get_session(conn, :user_return_to) do
+      nil -> put_session(conn, :user_return_to, default_path)
+      _existing_path -> conn
+    end
   end
 end

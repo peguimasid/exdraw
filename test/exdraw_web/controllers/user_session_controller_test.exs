@@ -18,7 +18,7 @@ defmodule ExdrawWeb.UserSessionControllerTest do
         })
 
       assert get_session(conn, :user_token)
-      assert redirected_to(conn) == ~p"/"
+      assert redirected_to(conn) == ~p"/home"
 
       # Now do a logged in request and assert on the menu
       conn = get(conn, ~p"/")
@@ -41,7 +41,7 @@ defmodule ExdrawWeb.UserSessionControllerTest do
         })
 
       assert conn.resp_cookies["_exdraw_web_user_remember_me"]
-      assert redirected_to(conn) == ~p"/"
+      assert redirected_to(conn) == ~p"/home"
     end
 
     test "logs the user in with return to", %{conn: conn, user: user} do
@@ -82,7 +82,7 @@ defmodule ExdrawWeb.UserSessionControllerTest do
         })
 
       assert get_session(conn, :user_token)
-      assert redirected_to(conn) == ~p"/"
+      assert redirected_to(conn) == ~p"/home"
 
       # Now do a logged in request and assert on the menu
       conn = get(conn, ~p"/")
@@ -103,7 +103,7 @@ defmodule ExdrawWeb.UserSessionControllerTest do
         })
 
       assert get_session(conn, :user_token)
-      assert redirected_to(conn) == ~p"/"
+      assert redirected_to(conn) == ~p"/home"
       assert Phoenix.Flash.get(conn.assigns.flash, :success) =~ "User confirmed successfully."
 
       assert Accounts.get_user!(user.id).confirmed_at

@@ -51,7 +51,7 @@ defmodule ExdrawWeb.UserLive.ConfirmationTest do
       assert Accounts.get_user!(user.id).confirmed_at
       # we are logged in now
       assert get_session(conn, :user_token)
-      assert redirected_to(conn) == ~p"/"
+      assert redirected_to(conn) == ~p"/home"
 
       # log out, new conn - token should be invalid now
       conn = build_conn()
