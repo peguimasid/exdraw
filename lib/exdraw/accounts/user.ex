@@ -2,6 +2,8 @@ defmodule Exdraw.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias __MODULE__
+
   schema "users" do
     field :email, :string
     field :password, :string, virtual: true, redact: true
@@ -11,6 +13,28 @@ defmodule Exdraw.Accounts.User do
 
     timestamps(type: :utc_datetime)
   end
+
+  def oauth_changeset(%User{} = user, %Ueberauth.Auth{info: info}, opts \\ []) do
+    oauth_attrs = [:email]
+
+    attrs = %{
+      email: info.email
+    }
+
+    user
+    |> cast(attrs, oauth_attrs)
+    |> validate_email(opts)
+    |> maybe_add_confirmed_at()
+  end
+
+  defp maybe_add_confirmed_at(%{data: %{confirmed_at: confirmed_at}} = changeset)
+       when is_nil(confirmed_at) do
+    now = DateTime.utc_now(:second)
+
+    put_change(changeset, :confirmed_at, now)
+  end
+
+  defp maybe_add_confirmed_at(changeset), do: changeset
 
   @doc """
   A user changeset for registering or changing the email.

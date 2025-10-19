@@ -1,6 +1,7 @@
 {
   "tailwindCSS.experimental.configFile": "assets/css/app.css",
   "cSpell.words": [
-    "exdraw"
+    "exdraw",
+    "ueberauth"
   ]
 }
