@@ -80,6 +80,50 @@ defmodule Exdraw.Accounts do
     |> Repo.insert()
   end
 
+  @doc """
+  Finds or creates a user from OAuth authentication.
+
+  If a user with the given email exists, returns that user.
+  Otherwise, creates a new user with the provided OAuth auth data.
+
+  ## Examples
+
+      iex> find_or_create_user_from_oauth(ueberauth_auth)
+      {:ok, %User{}}
+
+      iex> find_or_create_user_from_oauth(invalid_auth)
+      {:error, %Ecto.Changeset{}}
+  """
+  def find_or_create_user_from_oauth(%Ueberauth.Auth{} = auth) do
+    case get_user_by_email(auth.info.email) do
+      %User{} = user ->
+        {:ok, user}
+
+      nil ->
+        %User{}
+        |> User.oauth_changeset(auth)
+        |> Repo.insert()
+    end
+  end
+
+  @doc """
+  Updates a user.
+
+  ## Examples
+
+      iex> update_user(user, %{field: new_value})
+      {:ok, %User{}}
+
+      iex> update_user(user, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_user(%User{} = user, attrs) do
+    user
+    |> User.email_changeset(attrs)
+    |> Repo.update()
+  end
+
   ## Settings
 
   @doc """

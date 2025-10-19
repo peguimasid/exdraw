@@ -1,0 +1,23 @@
+defmodule ExdrawWeb.AuthController do
+  alias Exdraw.Accounts
+  use ExdrawWeb, :controller
+  plug Ueberauth
+
+  def callback(%{assigns: %{ueberauth_failure: %Ueberauth.Failure{}}} = conn, _params) do
+    conn
+    |> put_flash(:error, "Failed to authenticate")
+    |> redirect(to: ~p"/")
+  end
+
+  def callback(%{assigns: %{ueberauth_auth: %Ueberauth.Auth{} = auth}} = conn, _params) do
+    case Accounts.find_or_create_user_from_oauth(auth) do
+      {:ok, user} ->
+        ExdrawWeb.UserAuth.log_in_user(conn, user)
+
+      {:error, _changeset} ->
+        conn
+        |> put_flash(:error, "Unable to authenticate with GitHub")
+        |> redirect(to: ~p"/users/log-in")
+    end
+  end
+end
