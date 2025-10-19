@@ -14,7 +14,7 @@
 
       <div class="pt-4">
         <.link
-          navigate={~p"/users/log-in"}
+          navigate={if(@current_scope, do: ~p"/home", else: ~p"/users/log-in")}
           class="inline-block px-8 py-3 bg-base-content text-base-100 font-semibold rounded-lg hover:opacity-90 transition-opacity"
         >
           Start Drawing

@@ -12,7 +12,9 @@ defmodule ExdrawWeb.AuthController do
   def callback(%{assigns: %{ueberauth_auth: %Ueberauth.Auth{} = auth}} = conn, _params) do
     case Accounts.find_or_create_user_from_oauth(auth) do
       {:ok, user} ->
-        ExdrawWeb.UserAuth.log_in_user(conn, user)
+        conn
+        |> put_session(:user_return_to, ~p"/home")
+        |> ExdrawWeb.UserAuth.log_in_user(user)
 
       {:error, _changeset} ->
         conn
