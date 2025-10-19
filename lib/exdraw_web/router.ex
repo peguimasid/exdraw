@@ -47,6 +47,13 @@ defmodule ExdrawWeb.Router do
 
   ## Authentication routes
 
+  scope "/auth", ExdrawWeb do
+    pipe_through :browser
+
+    get "/:provider", AuthController, :request
+    get "/:provider/callback", AuthController, :callback
+  end
+
   scope "/", ExdrawWeb do
     pipe_through [:browser, :require_authenticated_user]
 

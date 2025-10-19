@@ -7,6 +7,10 @@
 # General application configuration
 import Config
 
+if config_env() in [:dev, :test] do
+  import_config(".env.exs")
+end
+
 config :exdraw, :scopes,
   user: [
     default: true,
