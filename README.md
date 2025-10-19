@@ -158,9 +158,9 @@ For production deployment guidelines, visit the [Phoenix deployment documentatio
 - Smooth transitions, helpful error messages
 
 #### 3. GitHub & Google SSO
-- [ ] Add `ueberauth_github` and `ueberauth_google`
-- [ ] Create OAuth apps in both platforms
-- [ ] Add "Continue with GitHub" and "Continue with Google" buttons
+- [x] Add `ueberauth_github` and `ueberauth_google`
+- [x] Create OAuth apps in both platforms
+- [x] Add "Continue with GitHub" and "Continue with Google" buttons
 
 **How it should work:**
 - Login page shows three options: Email, GitHub, Google
