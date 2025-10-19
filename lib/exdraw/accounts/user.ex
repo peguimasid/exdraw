@@ -6,6 +6,7 @@ defmodule Exdraw.Accounts.User do
 
   schema "users" do
     field :email, :string
+    field :avatar_url, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :utc_datetime
@@ -15,10 +16,11 @@ defmodule Exdraw.Accounts.User do
   end
 
   def oauth_changeset(%User{} = user, %Ueberauth.Auth{info: info}, opts \\ []) do
-    oauth_attrs = [:email]
+    oauth_attrs = [:email, :avatar_url]
 
     attrs = %{
-      email: info.email
+      email: info.email,
+      avatar_url: info.image
     }
 
     user
@@ -53,31 +55,13 @@ defmodule Exdraw.Accounts.User do
     |> validate_email(opts)
   end
 
-  defp validate_email(changeset, opts) do
-    changeset =
-      changeset
-      |> validate_required([:email])
-      |> validate_format(:email, ~r/^[^@,;\s]+@[^@,;\s]+$/,
-        message: "must have the @ sign and no spaces"
-      )
-      |> validate_length(:email, max: 160)
-
-    if Keyword.get(opts, :validate_unique, true) do
-      changeset
-      |> unsafe_validate_unique(:email, Exdraw.Repo)
-      |> unique_constraint(:email)
-      |> validate_email_changed()
-    else
-      changeset
-    end
-  end
-
-  defp validate_email_changed(changeset) do
-    if get_field(changeset, :email) && get_change(changeset, :email) == nil do
-      add_error(changeset, :email, "did not change")
-    else
-      changeset
-    end
+  defp validate_email(changeset, _opts) do
+    changeset
+    |> validate_required([:email])
+    |> validate_format(:email, ~r/^[^@,;\s]+@[^@,;\s]+$/,
+      message: "must have the @ sign and no spaces"
+    )
+    |> validate_length(:email, max: 160)
   end
 
   @doc """

@@ -12,28 +12,20 @@ defmodule ExdrawWeb.Layouts do
   embed_templates "layouts/*"
 
   @doc """
-  Renders your app layout.
+  Renders the app header.
 
-  This function is typically invoked from every template,
-  and it often contains your application menu, sidebar,
-  or similar.
+  This is a reusable header component that can be used independently
+  or as part of the app layout.
 
   ## Examples
 
-      <Layouts.app flash={@flash}>
-        <h1>Content</h1>
-      </Layouts.app>
-
+      <Layouts.header current_scope={@current_scope} />
   """
-  attr :flash, :map, required: true, doc: "the map of flash messages"
-
   attr :current_scope, :map,
     default: nil,
     doc: "the current [scope](https://hexdocs.pm/phoenix/scopes.html)"
 
-  slot :inner_block, required: true
-
-  def app(assigns) do
+  def header(assigns) do
     ~H"""
     <header class="navbar border-b border-base-300 px-4 sm:px-6 lg:px-8">
       <div class="flex-1">
@@ -51,13 +43,21 @@ defmodule ExdrawWeb.Layouts do
             <li>
               <div class="dropdown dropdown-end">
                 <div tabindex="0" role="button" class="btn btn-ghost gap-2 rounded-full">
-                  <div class="avatar avatar-placeholder">
-                    <div class="bg-primary text-primary-content rounded-full w-8 flex items-center justify-center">
-                      <span class="text-sm font-semibold uppercase">
-                        {String.first(@current_scope.user.email)}
-                      </span>
+                  <%= if @current_scope.user.avatar_url do %>
+                    <div class="avatar">
+                      <div class="w-8 rounded-full">
+                        <img src={@current_scope.user.avatar_url} />
+                      </div>
                     </div>
-                  </div>
+                  <% else %>
+                    <div class="avatar avatar-placeholder">
+                      <div class="bg-primary text-primary-content rounded-full w-8 flex items-center justify-center">
+                        <span class="text-sm font-semibold uppercase">
+                          {String.first(@current_scope.user.email)}
+                        </span>
+                      </div>
+                    </div>
+                  <% end %>
                   <.icon name="hero-chevron-down" class="size-4" />
                 </div>
                 <ul
@@ -97,6 +97,34 @@ defmodule ExdrawWeb.Layouts do
         </ul>
       </div>
     </header>
+    """
+  end
+
+  @doc """
+  Renders your app layout.
+
+  This function is typically invoked from every template,
+  and it often contains your application menu, sidebar,
+  or similar.
+
+  ## Examples
+
+      <Layouts.app flash={@flash}>
+        <h1>Content</h1>
+      </Layouts.app>
+
+  """
+  attr :flash, :map, required: true, doc: "the map of flash messages"
+
+  attr :current_scope, :map,
+    default: nil,
+    doc: "the current [scope](https://hexdocs.pm/phoenix/scopes.html)"
+
+  slot :inner_block, required: true
+
+  def app(assigns) do
+    ~H"""
+    <Layouts.header current_scope={@current_scope} />
 
     <main class="px-4 py-20 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-2xl space-y-4">

@@ -81,23 +81,25 @@ defmodule Exdraw.Accounts do
   end
 
   @doc """
-  Finds or creates a user from OAuth authentication.
+  Upserts a user from OAuth authentication.
 
-  If a user with the given email exists, returns that user.
+  If a user with the given email exists, updates their record with the latest OAuth data.
   Otherwise, creates a new user with the provided OAuth auth data.
 
   ## Examples
 
-      iex> find_or_create_user_from_oauth(ueberauth_auth)
+      iex> upsert_user_from_oauth(ueberauth_auth)
       {:ok, %User{}}
 
-      iex> find_or_create_user_from_oauth(invalid_auth)
+      iex> upsert_user_from_oauth(invalid_auth)
       {:error, %Ecto.Changeset{}}
   """
-  def find_or_create_user_from_oauth(%Ueberauth.Auth{} = auth) do
+  def upsert_user_from_oauth(%Ueberauth.Auth{} = auth) do
     case get_user_by_email(auth.info.email) do
       %User{} = user ->
-        {:ok, user}
+        user
+        |> User.oauth_changeset(auth)
+        |> Repo.update()
 
       nil ->
         %User{}
