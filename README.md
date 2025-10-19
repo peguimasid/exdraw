@@ -22,17 +22,86 @@ ExDraw is a real-time collaborative whiteboard built with Phoenix LiveView. Draw
    docker compose up -d
    ```
 
-3. Install dependencies, set up the database, and seed initial data:
+3. Create a `.env.exs` file in the `config/` directory with your environment variables:
+   ```bash
+   cp config/.env.exs.example config/.env.exs
+   ```
+   
+   Then edit `config/.env.exs` with your actual credentials (see [Environment Variables](#environment-variables) below).
+
+4. Install dependencies, set up the database, and seed initial data:
    ```bash
    mix setup
    ```
 
-4. Start the Phoenix server:
+5. Start the Phoenix server:
    ```bash
    iex -S mix phx.server
    ```
 
-5. Visit the application in your browser at [http://localhost:4000](http://localhost:4000).
+6. Visit the application in your browser at [http://localhost:4000](http://localhost:4000).
+
+### Running Tests
+- Run all tests:
+  ```bash
+  mix test
+  ```
+
+- Run tests in watch mode:
+  ```bash
+  mix test.watch
+  ```
+
+## Environment Variables
+
+ExDraw uses environment variables for sensitive configuration like OAuth credentials. These are loaded from a `config/.env.exs` file in development.
+
+### Setting Up Environment Variables
+
+1. Copy the example file:
+   ```bash
+   cp config/.env.exs.example config/.env.exs
+   ```
+
+2. Edit `config/.env.exs` with your actual credentials:
+   ```elixir
+   # GitHub OAuth (optional)
+   System.put_env("GITHUB_CLIENT_ID", "your_github_client_id")
+   System.put_env("GITHUB_CLIENT_SECRET", "your_github_client_secret")
+
+   # Google OAuth (optional)
+   System.put_env("GOOGLE_CLIENT_ID", "your_google_client_id")
+   System.put_env("GOOGLE_CLIENT_SECRET", "your_google_client_secret")
+   ```
+
+### Getting OAuth Credentials
+
+#### GitHub OAuth
+1. Go to https://github.com/settings/developers
+2. Click "New OAuth App"
+3. Fill in:
+   - **Application name**: ExDraw
+   - **Homepage URL**: `http://localhost:4000`
+   - **Authorization callback URL**: `http://localhost:4000/auth/github/callback`
+4. Copy the Client ID and Client Secret to `.env.exs`
+
+#### Google OAuth
+1. Go to https://console.cloud.google.com/
+2. Create a new project
+3. Go to "Credentials" → "Create Credentials" → "OAuth 2.0 Client ID"
+4. Select "Web application"
+5. Add Authorized redirect URIs: `http://localhost:4000/auth/google/callback`
+6. Copy the Client ID and Client Secret to `.env.exs`
+
+### Important Security Notes
+
+⚠️ **Never commit `.env.exs` to version control!** It's already in `.gitignore`.
+
+- Keep OAuth secrets private and never share them
+- `.env.exs.example` serves as a template and is safe to commit
+- Environment variables are automatically loaded when the development server starts
+
+---
 
 ### Running Tests
 - Run all tests:
