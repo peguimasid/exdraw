@@ -69,7 +69,8 @@ defmodule Exdraw.MixProject do
       {:bandit, "~> 1.5"},
       {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:ueberauth_github, "~> 0.8"}
+      {:ueberauth_github, "~> 0.8"},
+      {:ueberauth_google, "~> 0.10"}
     ]
   end
 

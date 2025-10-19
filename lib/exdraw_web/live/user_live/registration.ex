@@ -76,7 +76,10 @@ defmodule ExdrawWeb.UserLive.Registration do
               </svg>
               <span>GitHub</span>
             </.link>
-            <button class="btn btn-outline flex items-center justify-center gap-2 opacity-50 cursor-not-allowed">
+            <.link
+              href={~p"/auth/google"}
+              class="btn btn-outline flex items-center justify-center gap-2"
+            >
               <svg
                 class="size-4"
                 viewBox="0 0 754 768"
@@ -102,7 +105,7 @@ defmodule ExdrawWeb.UserLive.Registration do
               </svg>
 
               <span>Google</span>
-            </button>
+            </.link>
           </div>
 
           <div class="mt-6 text-center text-sm text-base-content/60">

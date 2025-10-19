@@ -79,8 +79,8 @@ config :phoenix, :json_library, Jason
 
 config :ueberauth, Ueberauth,
   providers: [
-    github: {Ueberauth.Strategy.Github, []}
-    # google: {Ueberauth.Strategy.Google, []},
+    github: {Ueberauth.Strategy.Github, []},
+    google: {Ueberauth.Strategy.Google, []}
   ]
 
 # Import environment specific config. This must remain at the bottom
