@@ -42,7 +42,7 @@ defmodule ExdrawWeb.Layouts do
           <%= if @current_scope do %>
             <li>
               <div class="dropdown dropdown-end">
-                <div tabindex="0" role="button" class="btn btn-ghost gap-2 rounded-full">
+                <div tabindex="0" role="button" class="btn btn-ghost gap-2">
                   <%= if @current_scope.user.avatar_url do %>
                     <div class="avatar">
                       <div class="w-8 rounded-full">
