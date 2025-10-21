@@ -2,6 +2,7 @@
   "name": "assets",
   "dependencies": {
     "daisyui": "^5.3.7",
+    "phoenix_typed_hook": "^0.18.2",
     "tailwindcss": "^4.1.14"
   }
 }
