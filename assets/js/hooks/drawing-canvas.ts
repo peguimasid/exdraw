@@ -3,7 +3,6 @@ import { Hook, makeHook } from 'phoenix_typed_hook'
 class DrawingCanvasHook extends Hook {
   mounted() {
     const canvas = this.el as HTMLCanvasElement
-    console.log(canvas)
     const ctx = canvas.getContext('2d')!
 
     canvas.width = canvas.offsetWidth

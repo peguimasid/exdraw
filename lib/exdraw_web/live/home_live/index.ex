@@ -23,4 +23,10 @@ defmodule ExdrawWeb.HomeLive.Index do
   def mount(_params, _session, socket) do
     {:ok, socket}
   end
+
+  @impl true
+  def handle_event("canvas_click", params, socket) do
+    IO.inspect(params)
+    {:noreply, socket}
+  end
 end
