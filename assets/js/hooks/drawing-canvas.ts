@@ -1,24 +1,35 @@
 import { Hook, makeHook } from 'phoenix_typed_hook'
 
 class DrawingCanvasHook extends Hook {
+  private canvas!: HTMLCanvasElement
+  private ctx!: CanvasRenderingContext2D
+
   mounted() {
-    const canvas = this.el as HTMLCanvasElement
-    const ctx = canvas.getContext('2d')!
+    this.canvas = this.el as HTMLCanvasElement
+    this.ctx = this.canvas.getContext('2d')!
 
-    canvas.width = canvas.offsetWidth
-    canvas.height = canvas.offsetHeight
+    this.canvas.width = this.canvas.offsetWidth
+    this.canvas.height = this.canvas.offsetHeight
 
-    canvas.addEventListener('click', (event) => {
+    // Listen for canvas clicks
+    this.canvas.addEventListener('click', (event) => {
       const offsetX = event.offsetX
       const offsetY = event.offsetY
 
-      ctx.fillStyle = 'black'
-      ctx.beginPath()
-      ctx.arc(offsetX, offsetY, 5, 0, Math.PI * 2)
-      ctx.fill()
-
+      // Send click event to the server (will be broadcasted to all users)
       this.pushEvent('canvas_click', { x: offsetX, y: offsetY })
     })
+
+    this.handleEvent('draw_dot', (data: { x: number; y: number }) => {
+      this.drawDot(data.x, data.y)
+    })
+  }
+
+  drawDot(x: number, y: number) {
+    this.ctx.fillStyle = 'black'
+    this.ctx.beginPath()
+    this.ctx.arc(x, y, 5, 0, Math.PI * 2)
+    this.ctx.fill()
   }
 }
 
